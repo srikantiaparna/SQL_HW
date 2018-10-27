@@ -316,7 +316,7 @@ ORDER BY COUNT(r.rental_id) DESC;
 -- 7f. Write a query to display how much business, in dollars, each store brought in.
 
 SELECT 
-     s.store_id, 
+     s.store_id AS 'Store ID', 
      SUM(amount) AS 'Revenue'
 FROM sakila.payment p
 JOIN sakila.rental r
@@ -329,14 +329,16 @@ GROUP BY s.store_id;
 
 
 -- 7g. Write a query to display for each store its store ID, city, and country.
-SELECT s.store_id, c.city, ct.country
+SELECT s.store_id AS "Store ID", 
+       c.city AS "City", 
+       ct.country AS "Country"
 FROM sakila.store s
 JOIN sakila.address a
-ON s.address_id = a.address_id
+  ON s.address_id = a.address_id
 JOIN sakila.city c
-ON a.city_id = c.city_id
+  ON a.city_id = c.city_id
 JOIN sakila.country ct
-ON c.country_id = ct.country_id
+  ON c.country_id = ct.country_id;
 
 
 -- 7h. List the top five genres in gross revenue in descending order. (Hint: you may need to use the following 
@@ -347,14 +349,15 @@ SELECT
      SUM(amount) AS "Gross Revenue"
 FROM sakila.category c
 JOIN sakila.film_category fc
-ON c.category_id = fc.category_id
+  ON c.category_id = fc.category_id
 JOIN sakila.inventory i
-ON fc.film_id = i.film_id
+  ON fc.film_id = i.film_id
 JOIN sakila.rental r
-ON i.inventory_id = r.inventory_id
+  ON i.inventory_id = r.inventory_id
 JOIN sakila.payment p
-ON r.rental_id = p.rental_id
-GROUP BY c.name
+  ON r.rental_id = p.rental_id
+GROUP BY 
+     c.name
 ORDER BY SUM(amount) DESC 
 LIMIT 5;
 
